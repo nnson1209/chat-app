@@ -45,5 +45,12 @@ public class Conversation {
     private String lastMessageContent;
 
     private LocalDateTime lastMessageTime;
+
+    public void addParticipants(User user) {
+        participants.add(ConversationParticipant.builder()
+                .conversation(this)
+                .user(user)
+                .build());
+    }
 }
 
