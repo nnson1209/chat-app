@@ -1,3 +1,16 @@
 spring:
   application:
     name: chat-app
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/chat_app
+    username: root
+    password: 123456
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret-key: yfH1x5azlrE4we6XsVsZq3rd/0pdv15bm966IauAclguJzbzMEOspCAyoxHoVzfiKgn9d8eol5Qwk45Nw0qlpyDoDKKGByc6+Cz0yFRb9O0=
