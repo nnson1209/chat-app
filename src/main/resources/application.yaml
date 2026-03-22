@@ -11,6 +11,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      properties:
+        hibernate:
+          type:
+            json_format_mapper: com.learn.chat_app.configuration.CustomHibernateJsonFormatter
+
 
 jwt:
   secret-key: yfH1x5azlrE4we6XsVsZq3rd/0pdv15bm966IauAclguJzbzMEOspCAyoxHoVzfiKgn9d8eol5Qwk45Nw0qlpyDoDKKGByc6+Cz0yFRb9O0=

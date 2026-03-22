@@ -2,7 +2,9 @@ package com.learn.chat_app.controller;
 
 import com.learn.chat_app.dto.request.CreateConversationRequest;
 import com.learn.chat_app.dto.response.ApiResponse;
+import com.learn.chat_app.dto.response.ConversationDetailResponse;
 import com.learn.chat_app.dto.response.CreateConversationResponse;
+import com.learn.chat_app.dto.response.PageResponse;
 import com.learn.chat_app.service.ConversationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
