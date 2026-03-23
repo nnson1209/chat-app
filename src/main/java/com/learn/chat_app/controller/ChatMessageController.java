@@ -3,16 +3,14 @@ package com.learn.chat_app.controller;
 import com.learn.chat_app.dto.request.ChatMessageRequest;
 import com.learn.chat_app.dto.response.ApiResponse;
 import com.learn.chat_app.dto.response.ChatMessageResponse;
+import com.learn.chat_app.dto.response.PageResponse;
 import com.learn.chat_app.service.ChatMessageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +33,21 @@ public class ChatMessageController {
                 .data(data)
                 .build();
     }
+
+    @GetMapping("/conversations/{conversationId}/messages")
+    ApiResponse<PageResponse<ChatMessageResponse>> getMessages(
+            @PathVariable String conversationId, // Lấy conversationId từ URL path
+            @RequestParam(required = false, defaultValue = "1") int page, // Page number (1-based)
+            @RequestParam(required = false, defaultValue = "20") int size // Số tin nhắn per page
+    ) {
+        var data = chatMessageService.getMessagesByConversationId(conversationId, page, size);
+
+        return ApiResponse.<PageResponse<ChatMessageResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message("Messages retrieved successfully")
+                .data(data)
+                .build();
+    }
+
 }
 
