@@ -2,6 +2,7 @@ package com.learn.chat_app.service;
 
 import com.learn.chat_app.dto.request.CreateUserRequest;
 import com.learn.chat_app.dto.response.CreateUserResponse;
+import com.learn.chat_app.dto.response.UserDetailResponse;
 import com.learn.chat_app.entity.Role;
 import com.learn.chat_app.entity.User;
 import com.learn.chat_app.exception.AppException;
@@ -49,5 +50,16 @@ public class UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .build();
+    }
+
+    public UserDetailResponse myInfo(String userId) {
+        // Tìm user theo userId từ JWT token
+        return userRepository.findById(userId)
+                .map(user -> UserDetailResponse.builder()
+                        .userId(user.getId())
+                        .email(user.getEmail())
+                        .username(user.getUsername())
+                        .build())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 }
