@@ -40,11 +40,11 @@ public class ConversationController {
 
     @GetMapping("/my-conversation")
     ApiResponse<PageResponse<ConversationDetailResponse>> getMyConversation(
-            @AuthenticationPrincipal Jwt jwt, // Lấy thông tin user từ JWT
-            @RequestParam(required = false, defaultValue = "1") int page, // Page number (bắt đầu từ 1)
-            @RequestParam(required = false, defaultValue = "10") int size) { // Số lượng items per page
-
-        var userId = jwt.getSubject(); // Lấy userId từ JWT
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        var userId = jwt.getSubject();
         var data = conversationService.getMyConversation(userId, page, size);
 
         return ApiResponse.<PageResponse<ConversationDetailResponse>>builder()
