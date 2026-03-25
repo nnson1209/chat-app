@@ -10,6 +10,5 @@ public record MessageMediaResponse(
         String fileType,     // Loại file
         String thumbnailUrl, // URL của file
         LocalDateTime uploadedAt // Thời gian upload
-) {
-}
+) {}
 

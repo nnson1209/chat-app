@@ -7,17 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record ChatMessageRequest(
-
-        String tempId, // Temporary ID từ client để map với message đã gửi (optimistic UI)
-
+        String tempId,
         @NotBlank(message = "Conversation id is required")
-        String conversationId, // ID của conversation
-
-        String content, // Nội dung tin nhắn (bắt buộc với TEXT, optional với MEDIA)
-
+        String conversationId,
+        String content,
         @NotNull(message = "Message type is required")
-        MessageType messageType, // TEXT hoặc MEDIA
-
-        List<MessageMediaRequest> messageMedia // Danh sách media files (optional)
-) {
-}
+        MessageType messageType,
+        List<MessageMediaRequest> messageMedia
+) {}

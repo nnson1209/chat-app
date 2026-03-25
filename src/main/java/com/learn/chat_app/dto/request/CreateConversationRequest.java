@@ -15,5 +15,4 @@ public record CreateConversationRequest(
 
         @NotEmpty(message = "Participant ids are required")
         List<String> participantIds
-) {
-}
+) {}

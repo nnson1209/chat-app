@@ -25,6 +25,9 @@ public class ConversationDetailResponse {
     private String lastMessageContent;
     private LocalDateTime lastMessageTime;
 
+    private Boolean isOnline;
+    private String lastOnlineAt;
+
     private LocalDateTime createdAt;
 }
 

@@ -7,5 +7,4 @@ public record UserDetailResponse(
         String userId,
         String email,
         String username
-) {
-}
+) {}

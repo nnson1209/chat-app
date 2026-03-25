@@ -86,6 +86,7 @@ public class ConversationService {
 
     public PageResponse<ConversationDetailResponse> getMyConversation(String userId, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
+
         Page<Conversation> conversationPage = conversationRepository.findAllByUserId(userId, pageable);
 
         List<String> conversationIds = conversationPage.getContent().stream()
@@ -96,7 +97,7 @@ public class ConversationService {
                 List.of() : conversationRepository.findByIdInWithParticipants(conversationIds);
 
         List<ConversationDetailResponse> responses = conversationsWithParticipants.stream()
-                .map(conversation -> ConversationMapper.toConversationDetailResponse(userId, conversation))
+                .map(conversation -> conversationMapper.toConversationDetailResponse(userId, conversation))
                 .toList();
 
         return PageResponse.<ConversationDetailResponse>builder()

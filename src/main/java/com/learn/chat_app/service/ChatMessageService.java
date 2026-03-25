@@ -97,29 +97,19 @@ public class ChatMessageService {
     }
 
     public PageResponse<ChatMessageResponse> getMessagesByConversationId(String conversationId, int page, int size) {
-        // 1. Lấy thông tin user từ SecurityContext
-        // SecurityContextHolder: Lưu trữ thông tin authentication của request hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null)
-            throw new AppException(ErrorCode.UNAUTHORIZED);
+        if(authentication == null) throw new AppException(ErrorCode.UNAUTHORIZED);
 
-        // 2. Lấy userId từ authentication
         String userId = authentication.getName();
 
-        // 3. Validate conversation tồn tại và user là member
         Conversation conversation = conversationRepository.findByIdAndMember(conversationId, userId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_CONVERSATION_MEMBER));
 
-        // 4. Tạo Pageable với sort theo sentAt DESC (tin nhắn mới nhất lên đầu)
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "sentAt"));
-
-        // 5. Query messages từ database với pagination
         Page<ChatMessage> chatMessagePage = chatMessageRepository.findByConversationId(conversationId, pageable);
 
-        // 6. Lấy danh sách messages từ Page object
         List<ChatMessage> messages = chatMessagePage.getContent();
 
-        // 7. Map từng message entity sang response DTO
         List<ChatMessageResponse> responses = messages.stream()
                 .map(message -> ChatMessageResponse.builder()
                         .id(message.getId())
@@ -129,7 +119,6 @@ public class ChatMessageService {
                         .senderName(message.getSender().getUsername())
                         .content(message.getContent())
                         .messageType(message.getMessageType())
-                        // Map media files
                         .messageMedia(message.getMediaFiles().stream()
                                 .map(messageMedia -> MessageMediaResponse.builder()
                                         .fileName(messageMedia.getFileName())
@@ -138,11 +127,9 @@ public class ChatMessageService {
                                         .uploadedAt(messageMedia.getUploadedAt())
                                         .build())
                                 .toList())
-                        .createdAt(message.getSentAt())
                         .build())
                 .toList();
 
-        // 8. Build PageResponse với thông tin pagination
         return PageResponse.<ChatMessageResponse>builder()
                 .currentPage(page)
                 .pageSize(pageable.getPageSize())
